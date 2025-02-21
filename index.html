@@ -2,10 +2,112 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>unknown site</title>
+    <title>Unknown Site</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: white; /* Дневной режим по умолчанию */
+            color: black; /* Чёрный текст для дневного режима */
+            transition: background-color 0.3s, color 0.3s; /* Плавное переключение */
+        }
+
+        /* Ночной режим */
+        .dark-mode {
+            background-color: black; /* Чёрный фон для ночного режима */
+            color: white; /* Белый текст для контраста */
+        }
+
+        /* Дневной режим */
+        .light-mode {
+            background-color: white; /* Белый фон для дневного режима */
+            color: black; /* Чёрный текст для контраста */
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        nav li {
+            display: inline;
+            margin-right: 20px;
+        }
+        nav a {
+            color: #4285f4;
+            text-decoration: none;
+        }
+        nav a:hover {
+            text-decoration: underline;
+            color: #00ffff; /* Светло-голубой при наведении */
+        }
+        section {
+            margin-bottom: 30px;
+            background-color: #f0f0f0; /* Светло-серый фон для секций в дневном режиме */
+            padding: 10px;
+            transition: background-color 0.3s; /* Плавное переключение */
+        }
+        .dark-mode section {
+            background-color: #1a1a1a; /* Тёмно-серый фон для секций в ночном режиме */
+        }
+        .light-mode section {
+            background-color: #f0f0f0; /* Светло-серый фон для секций в дневном режиме */
+        }
+
+        img {
+            width: 500px;
+            height: auto;
+            display: block;
+            margin: 10px auto;
+        }
+        iframe {
+            display: block;
+            margin: 10px auto;
+        }
+        audio {
+            display: block;
+            margin: 10px auto;
+        }
+        #message {
+            color: #15ff00;
+            display: block;
+            margin: 10px auto;
+            text-align: center;
+        }
+        button {
+            display: block;
+            margin: 10px auto;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+            color: white;
+        }
+
+        /* Стили для кнопки переключения режимов */
+        #themeToggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #666;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        #themeToggle:hover {
+            background-color: #555;
+        }
+    </style>
 </head>
-<body>
-    
+<body class="light-mode"> <!-- Устанавливаем дневной режим по умолчанию -->
     <h1>Заголовок</h1>
     <h2>Содержание</h2>
 
@@ -14,7 +116,8 @@
             <li><a href="#link">Перейти к первому разделу</a></li>
             <li><a href="#image">Перейти ко второму разделу</a></li>
             <li><a href="#video">Перейти к третьему разделу</a></li>
-            <li><a href="#audio">Перейти к четвертому разделу</a></li>
+            <li><a href="#audio">Перейти к четвёртому разделу</a></li>
+            <li><a href="#Кнопка">Перейти к пятому разделу</a></li>
         </ul>
     </nav>
 
@@ -28,9 +131,9 @@
         <img src="cat.png" alt="cat.png">
         <p>Описание кота</p>
         <ul>
-            <li>Цвет: серый</li>
+            <li>Имя: Борис</li>
             <li>Возраст: 3 года</li>
-            <li>Любит: играть с мышкой</li>
+            <li>Окрас: серый</li>
         </ul>
     </section>
 
@@ -47,5 +150,45 @@
         </audio>
     </section>
 
+    <section id="Кнопка">
+        <h3>Кнопка:</h3>
+        <button onclick="showMessage()">Спасибо</button>
+        <p id="message" style="display: none;">Пожалуйста!</p>
+    </section>
+
+    <button id="themeToggle" onclick="toggleTheme()">Переключить режим</button>
+
+    <script>
+        function showMessage() {
+            const message = document.getElementById("message");
+            message.style.display = "block";
+            setTimeout(() => {
+                message.style.display = "none";
+            }, 3000);
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            if (body.classList.contains("dark-mode")) {
+                body.classList.remove("dark-mode");
+                body.classList.add("light-mode");
+                localStorage.setItem("theme", "light");
+            } else {
+                body.classList.remove("light-mode");
+                body.classList.add("dark-mode");
+                localStorage.setItem("theme", "dark");
+            }
+        }
+
+        // Загрузка сохранённого режима при старте
+        window.onload = function() {
+            const savedTheme = localStorage.getItem("theme");
+            if (savedTheme === "dark") {
+                document.body.classList.add("dark-mode");
+            } else {
+                document.body.classList.add("light-mode");
+            }
+        };
+    </script>
 </body>
 </html>
